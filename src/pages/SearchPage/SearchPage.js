@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import useHTTP from "../../hooks/use-HTTP";
 import { API_URL, API_KEY, SEARCH_ENDPOINT } from "../../credentials";
 import ItemGrid from "../../components/ItemGrid/ItemGrid";
-
 let fetchedDatas = [];
 
 const SearchPage = () => {
@@ -22,7 +21,11 @@ const SearchPage = () => {
     sendRequest(fetchConfig, getSearchedDatas);
   }, [searchText]);
 
-  return <ItemGrid datas={fetchedDatas} />;
+  return (
+    <>
+      <ItemGrid datas={fetchedDatas} />;
+    </>
+  );
 };
 
 export default SearchPage;

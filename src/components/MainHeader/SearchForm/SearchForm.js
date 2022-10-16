@@ -5,9 +5,12 @@ import FormInput from "./FormInput/FormInput";
 import FormButton from "./FormButton/FormButton";
 import useInput from "../../../hooks/use-input";
 import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../../store/ui-slice";
 
 const SearchForm = (props) => {
   let location = useLocation();
+  const dispatch = useDispatch();
 
   const {
     value: searchText,
@@ -23,6 +26,7 @@ const SearchForm = (props) => {
     if (!searchTextIsValid) {
       return;
     }
+    dispatch(uiActions.sendMessage({ text: searchText, type: "message" }));
     props.onSubmit(searchText);
   };
 
@@ -39,7 +43,6 @@ const SearchForm = (props) => {
           type: "text",
           placeholder: "Buscar",
           value: searchText,
-          // className: searchTextInputHasError ? classes.invalid : "",
           onChange: firstNameInputChangeHandler,
           onBlur: firstNameInputBlurHandler,
         }}

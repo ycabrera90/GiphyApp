@@ -1,0 +1,59 @@
+.info-bar {
+  display: none;
+  position: fixed;
+  top: 6rem;
+  left: 0.6rem;
+  right: 0.6rem;
+  height: 4rem;
+  z-index: 1;
+
+  background: radial-gradient(farthest-corner, #161133, #120d5999, #110d5a54);
+
+  &.message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation-name: showHide;
+    animation-delay: 0s;
+    animation-timing-function: linear;
+    animation-direction: normal;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+  }
+
+  > h3 {
+    color: #ffffff8a;
+    font-weight: 400;
+    font-size: 2.5rem;
+    &.error {
+      color: #ff0000d1;
+    }
+    &.alert {
+      color: #89b5b6ba;
+    }
+  }
+}
+
+@keyframes showHide {
+  0% {
+    transform: scale(-200);
+    opacity: 0;
+  }
+  5% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  10% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  90% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(200);
+    opacity: 0;
+  }
+}
