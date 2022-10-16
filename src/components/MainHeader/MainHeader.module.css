@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  height: 3rem;
+  border-bottom: rgba(255, 255, 255, 0.6196078431) 2px solid;
+  color: rgba(255, 255, 255, 0.6196078431);
+  padding: 0 0.5rem;
+}/*# sourceMappingURL=MainHeader.module.css.map */

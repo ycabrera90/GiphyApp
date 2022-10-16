@@ -1,0 +1,12 @@
+.logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.logo > img {
+  height: 2rem;
+  margin-left: -9px;
+}
+.logo > h1 {
+  font-size: 2rem;
+}/*# sourceMappingURL=Logo.module.css.map */

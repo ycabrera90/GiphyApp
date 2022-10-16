@@ -1,0 +1,13 @@
+.logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    > img {
+      height: 2rem;
+      margin-left: -9px;
+    }
+    > h1 {
+      font-size: 2rem;
+    }
+  }
+  
