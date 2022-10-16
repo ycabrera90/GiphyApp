@@ -1,10 +1,14 @@
 import React from "react";
+import { useEffect } from "react";
 import classes from "./SearchForm.module.css";
 import FormInput from "./FormInput/FormInput";
 import FormButton from "./FormButton/FormButton";
 import useInput from "../../../hooks/use-input";
+import { useLocation } from "react-router-dom";
 
 const SearchForm = (props) => {
+  let location = useLocation();
+
   const {
     value: searchText,
     isValid: searchTextIsValid,
@@ -19,9 +23,14 @@ const SearchForm = (props) => {
     if (!searchTextIsValid) {
       return;
     }
-    // resetFirstNameInput();
     props.onSubmit(searchText);
   };
+
+  useEffect(() => {
+    if (location.pathname === "/home") {
+      resetFirstNameInput();
+    }
+  }, [location.pathname]);
 
   return (
     <form onSubmit={submitFormHandler} className={classes["search-form"]}>
