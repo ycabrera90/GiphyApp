@@ -1,8 +1,5 @@
 import React from "react";
-import classes from "./App.css";
-
 import { Route, Redirect } from "react-router-dom";
-
 import MainHeader from "./components/MainHeader/MainHeader";
 import HomePage from "./pages/HomePage/HomePage";
 import SearchPage from "./pages/SearchPage/SearchPage";
