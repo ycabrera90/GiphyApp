@@ -1,9 +1,9 @@
 import React from "react";
+import "./App.css";
 import { Route, Redirect } from "react-router-dom";
 import MainHeader from "./components/MainHeader/MainHeader";
 import HomePage from "./pages/HomePage/HomePage";
 import SearchPage from "./pages/SearchPage/SearchPage";
-
 
 function App() {
   return (
