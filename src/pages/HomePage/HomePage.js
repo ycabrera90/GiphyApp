@@ -24,7 +24,12 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const { isLoading, error, sendRequest } = useHTTP();
 
-  const getTrendingDatas = (datas) => {
+  const getFetchedDatas = (datas) => {
+    fetchedDatas = datas.data.map((element) => element.images.fixed_height.url);
+    TREND_OFFSET += 50;
+  };
+
+  const getMoreFetchedDatas = (datas) => {
     datas.data.forEach((element) => {
       fetchedDatas.push(element.images.fixed_height.url);
     });
@@ -34,7 +39,7 @@ const HomePage = () => {
   useEffect(() => {
     sendRequest(
       { url: `${URL_TREND}&offset=${TREND_OFFSET}` },
-      getTrendingDatas
+      getFetchedDatas
     );
   }, []);
 
@@ -59,7 +64,7 @@ const HomePage = () => {
   const getMoreDatas = () => {
     sendRequest(
       { url: `${URL_TREND}&offset=${TREND_OFFSET}` },
-      getTrendingDatas
+      getMoreFetchedDatas
     );
   };
 
