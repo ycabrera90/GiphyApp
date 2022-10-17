@@ -6,32 +6,31 @@
   right: 0.6rem;
   height: 4rem;
   z-index: 1;
-
   background: radial-gradient(farthest-corner, #161133, #120d5999, #110d5a54);
 
-  &.message {
+  &.message,
+  &.error,
+  &.alert {
     display: flex;
     justify-content: center;
     align-items: center;
-    animation-name: showHide;
-    animation-delay: 0s;
-    animation-timing-function: linear;
-    animation-direction: normal;
-    animation-duration: 3s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: 1;
+  }
+
+  &.message {
+    color: #ffffff8a;
+    animation: 3s linear 0s 1 normal forwards showHide;
+  }
+
+  &.error {
+    color: #ff0000d1;
+  }
+  &.alert {
+    color: #89b5b6ba;
   }
 
   > h3 {
-    color: #ffffff8a;
     font-weight: 400;
     font-size: 2.5rem;
-    &.error {
-      color: #ff0000d1;
-    }
-    &.alert {
-      color: #89b5b6ba;
-    }
   }
 }
 

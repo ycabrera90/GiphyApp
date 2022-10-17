@@ -8,35 +8,25 @@
   z-index: 1;
   background: radial-gradient(farthest-corner, #161133, rgba(18, 13, 89, 0.6), rgba(17, 13, 90, 0.3294117647));
 }
-.info-bar.message {
+.info-bar.message, .info-bar.error, .info-bar.alert {
   display: flex;
   justify-content: center;
   align-items: center;
-  -webkit-animation-name: showHide;
-          animation-name: showHide;
-  -webkit-animation-delay: 0s;
-          animation-delay: 0s;
-  -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
-  -webkit-animation-direction: normal;
-          animation-direction: normal;
-  -webkit-animation-duration: 3s;
-          animation-duration: 3s;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-  -webkit-animation-iteration-count: 1;
-          animation-iteration-count: 1;
 }
-.info-bar > h3 {
+.info-bar.message {
   color: rgba(255, 255, 255, 0.5411764706);
-  font-weight: 400;
-  font-size: 2.5rem;
+  -webkit-animation: 3s linear 0s 1 normal forwards showHide;
+          animation: 3s linear 0s 1 normal forwards showHide;
 }
-.info-bar > h3.error {
+.info-bar.error {
   color: rgba(255, 0, 0, 0.8196078431);
 }
-.info-bar > h3.alert {
+.info-bar.alert {
   color: rgba(137, 181, 182, 0.7294117647);
+}
+.info-bar > h3 {
+  font-weight: 400;
+  font-size: 2.5rem;
 }
 
 @-webkit-keyframes showHide {
