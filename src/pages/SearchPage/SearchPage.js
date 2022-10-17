@@ -7,9 +7,13 @@ import ItemGrid from "../../components/ItemGrid/ItemGrid";
 import { uiActions } from "../../store/ui-slice";
 import { useDispatch } from "react-redux";
 
-let fetchedDatas = [];
 let firstMount = true;
+let isSeachtTextLoaded = false;
+
 const URL_SEARCH = `${API_URL}${SEARCH_ENDPOINT}?api_key=${API_KEY}`;
+let TREND_OFFSET = 0;
+let fetchedDatas = [];
+
 const ALERT_MSSG = { text: "Loading...", type: "alert" };
 const ERROR_MSSG = {
   text: "Sorry 😔. Something went wrong",
@@ -22,11 +26,15 @@ const SearchPage = () => {
   const { isLoading, error, sendRequest } = useHTTP();
 
   const getSearchedDatas = (datas) => {
-    fetchedDatas = datas.data.map((element) => element.images.original.url);
+    datas.data.map((element) => {
+      fetchedDatas.push(element.images.original.url);
+    });
+    TREND_OFFSET += 50;
   };
 
   useEffect(() => {
     sendRequest({ url: `${URL_SEARCH}&q=${searchText}` }, getSearchedDatas);
+    isSeachtTextLoaded = false;
   }, [searchText]);
 
   useEffect(() => {
@@ -39,15 +47,28 @@ const SearchPage = () => {
         dispatch(uiActions.sendMessage(ALERT_MSSG));
       }
 
-      if (!isLoading && !error) {
+      if (!isLoading && !error && !isSeachtTextLoaded) {
         dispatch(uiActions.sendMessage({ text: searchText, type: "message" }));
+        isSeachtTextLoaded = true;
       }
     } else {
       firstMount = false;
     }
   }, [error, isLoading]);
 
-  return <ItemGrid datas={fetchedDatas} />;
+  const getMoreDatas = () => {
+    sendRequest(
+      { url: `${URL_SEARCH}&q=${searchText}&offset=${TREND_OFFSET}` },
+      getSearchedDatas
+    );
+  };
+
+  return (
+    <ItemGrid
+      datas={fetchedDatas}
+      scroll={{ trigger: 75, onEvent: getMoreDatas }}
+    />
+  );
 };
 
 export default SearchPage;

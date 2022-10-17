@@ -6,9 +6,13 @@ import ItemGrid from "../../components/ItemGrid/ItemGrid";
 import { uiActions } from "../../store/ui-slice";
 import { useDispatch } from "react-redux";
 
-let fetchedDatas = [];
 let firstMount = true;
+let isWlecomeMssgLoaded = false;
+
 const URL_TREND = `${API_URL}${TRENDING_ENDPOINT}?api_key=${API_KEY}`;
+let TREND_OFFSET = 0;
+let fetchedDatas = [];
+
 const TEXT_MSSG = { text: "Welcome...", type: "message" };
 const ALERT_MSSG = { text: "Loading...", type: "alert" };
 const ERROR_MSSG = {
@@ -21,11 +25,17 @@ const HomePage = () => {
   const { isLoading, error, sendRequest } = useHTTP();
 
   const getTrendingDatas = (datas) => {
-    fetchedDatas = datas.data.map((element) => element.images.original.url);
+    datas.data.map((element) => {
+      fetchedDatas.push(element.images.original.url);
+    });
+    TREND_OFFSET += 50;
   };
 
   useEffect(() => {
-    sendRequest({ url: URL_TREND }, getTrendingDatas);
+    sendRequest(
+      { url: `${URL_TREND}&offset=${TREND_OFFSET}` },
+      getTrendingDatas
+    );
   }, []);
 
   useEffect(() => {
@@ -37,16 +47,28 @@ const HomePage = () => {
       if (isLoading) {
         dispatch(uiActions.sendMessage(ALERT_MSSG));
       }
-
-      if (!isLoading && !error) {
+      if (!isLoading && !error && !isWlecomeMssgLoaded) {
         dispatch(uiActions.sendMessage(TEXT_MSSG));
+        isWlecomeMssgLoaded = true;
       }
     } else {
       firstMount = false;
     }
   }, [error, isLoading]);
 
-  return <ItemGrid datas={fetchedDatas} />;
+  const getMoreDatas = () => {
+    sendRequest(
+      { url: `${URL_TREND}&offset=${TREND_OFFSET}` },
+      getTrendingDatas
+    );
+  };
+
+  return (
+    <ItemGrid
+      datas={fetchedDatas}
+      scroll={{ trigger: 75, onEvent: getMoreDatas }}
+    />
+  );
 };
 
 export default HomePage;
