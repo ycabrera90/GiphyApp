@@ -25,15 +25,20 @@ const SearchPage = () => {
   const { text: searchText } = useParams();
   const { isLoading, error, sendRequest } = useHTTP();
 
-  const getSearchedDatas = (datas) => {
-    datas.data.map((element) => {
+  const getMoreFetchedDatas = (datas) => {
+    datas.data.forEach((element) => {
       fetchedDatas.push(element.images.original.url);
     });
     TREND_OFFSET += 50;
   };
 
+  const getFetchedDatas = (datas) => {
+    fetchedDatas = datas.data.map((element) => element.images.original.url);
+    TREND_OFFSET += 50;
+  };
+
   useEffect(() => {
-    sendRequest({ url: `${URL_SEARCH}&q=${searchText}` }, getSearchedDatas);
+    sendRequest({ url: `${URL_SEARCH}&q=${searchText}` }, getFetchedDatas);
     isSeachtTextLoaded = false;
   }, [searchText]);
 
@@ -59,7 +64,7 @@ const SearchPage = () => {
   const getMoreDatas = () => {
     sendRequest(
       { url: `${URL_SEARCH}&q=${searchText}&offset=${TREND_OFFSET}` },
-      getSearchedDatas
+      getMoreFetchedDatas
     );
   };
 

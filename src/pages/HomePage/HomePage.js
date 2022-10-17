@@ -25,7 +25,7 @@ const HomePage = () => {
   const { isLoading, error, sendRequest } = useHTTP();
 
   const getTrendingDatas = (datas) => {
-    datas.data.map((element) => {
+    datas.data.forEach((element) => {
       fetchedDatas.push(element.images.original.url);
     });
     TREND_OFFSET += 50;

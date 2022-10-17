@@ -1,16 +1,18 @@
-import React from "react";
-import "./App.css";
+import React, { Suspense } from "react";
 import { Route, Redirect } from "react-router-dom";
-import InfoBar from "./components/InfoBar/InfoBar";
-import MainHeader from "./components/MainHeader/MainHeader";
-import HomePage from "./pages/HomePage/HomePage";
-import SearchPage from "./pages/SearchPage/SearchPage";
+import "./App.css";
+
+// deploy on Server
+const InfoBar = React.lazy(() => import("./components/InfoBar/InfoBar"));
+const MainHeader = React.lazy(() =>
+  import("./components/MainHeader/MainHeader")
+);
+const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
+const SearchPage = React.lazy(() => import("./pages/SearchPage/SearchPage"));
 
 function App() {
-
-
   return (
-    <>
+    <Suspense fallback={<></>}>
       <InfoBar />
       <MainHeader />
 
@@ -25,7 +27,7 @@ function App() {
       <Route path="/search/:text">
         <SearchPage />
       </Route>
-    </>
+    </Suspense>
   );
 }
 
