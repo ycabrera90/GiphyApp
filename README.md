@@ -8,13 +8,25 @@ You can find the documentation of the APIS in the following [link](https://devel
 ## Run the project
 For run this project you have to follow the next steps:
 
-### `git clone https://github.com/ycabrera90/GiphyApp---APJ-.git`
+#### `git clone https://github.com/ycabrera90/GiphyApp---APJ-.git`
 
-### `npm install`
+#### `npm install`
 
-### `npm start`
+#### `npm start`
+
+## Resources and Features
+- React redux
+- Redux toolkit
+- React router 5
+- MPA on SPA
+- Custom hooks
+- CSS grid
+- CSS flexbox
+- Sass
+- Fecth API
+- Infinite Scroll
 
 
-## Learn More
+## Read More
 
-- Nothing important until now :-D
+- Nothing important until now 😁
