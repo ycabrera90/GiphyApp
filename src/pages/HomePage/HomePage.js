@@ -26,7 +26,7 @@ const HomePage = () => {
 
   const getTrendingDatas = (datas) => {
     datas.data.forEach((element) => {
-      fetchedDatas.push(element.images.original.url);
+      fetchedDatas.push(element.images.fixed_height.url);
     });
     TREND_OFFSET += 50;
   };
@@ -44,7 +44,7 @@ const HomePage = () => {
         dispatch(uiActions.sendMessage(ERROR_MSSG));
       }
 
-      if (isLoading) {
+      if (isLoading && !isWlecomeMssgLoaded) {
         dispatch(uiActions.sendMessage(ALERT_MSSG));
       }
       if (!isLoading && !error && !isWlecomeMssgLoaded) {

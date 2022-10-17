@@ -27,13 +27,13 @@ const SearchPage = () => {
 
   const getMoreFetchedDatas = (datas) => {
     datas.data.forEach((element) => {
-      fetchedDatas.push(element.images.original.url);
+      fetchedDatas.push(element.images.fixed_height.url);
     });
     TREND_OFFSET += 50;
   };
 
   const getFetchedDatas = (datas) => {
-    fetchedDatas = datas.data.map((element) => element.images.original.url);
+    fetchedDatas = datas.data.map((element) => element.images.fixed_height.url);
     TREND_OFFSET += 50;
   };
 
@@ -48,7 +48,7 @@ const SearchPage = () => {
         dispatch(uiActions.sendMessage(ERROR_MSSG));
       }
 
-      if (isLoading) {
+      if (isLoading && !isSeachtTextLoaded) {
         dispatch(uiActions.sendMessage(ALERT_MSSG));
       }
 
