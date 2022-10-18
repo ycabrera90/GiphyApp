@@ -27,6 +27,7 @@ const HomePage = () => {
   const getFetchedDatas = (datas) => {
     fetchedDatas = datas.data.map((element) => element.images.fixed_height.url);
     TREND_OFFSET += 50;
+    
   };
 
   const getMoreFetchedDatas = (datas) => {
