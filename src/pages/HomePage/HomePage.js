@@ -1,14 +1,17 @@
 import React from "react";
 import { useEffect } from "react";
-import useHTTP from "../../hooks/use-HTTP";
-import { API_URL, API_KEY, TRENDING_ENDPOINT } from "../../credentials";
-import ItemGrid from "../../components/ItemGrid/ItemGrid";
-import { uiActions } from "../../store/ui-slice";
 import { useDispatch } from "react-redux";
+
+import useHTTP from "../../hooks/use-HTTP";
+import { uiActions } from "../../store/ui-slice";
+import ItemGrid from "../../components/ItemGrid/ItemGrid";
+
+import { API_URL, TRENDING_ENDPOINT } from "../../urls";
 
 let firstMount = true;
 let isWlecomeMssgLoaded = false;
 
+const API_KEY = window.env.API_KEY;
 const URL_TREND = `${API_URL}${TRENDING_ENDPOINT}?api_key=${API_KEY}`;
 let TREND_OFFSET = 0;
 let fetchedDatas = [];
@@ -27,7 +30,6 @@ const HomePage = () => {
   const getFetchedDatas = (datas) => {
     fetchedDatas = datas.data.map((element) => element.images.fixed_height.url);
     TREND_OFFSET += 50;
-    
   };
 
   const getMoreFetchedDatas = (datas) => {

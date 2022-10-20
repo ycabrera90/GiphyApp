@@ -1,15 +1,18 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+
 import useHTTP from "../../hooks/use-HTTP";
-import { API_URL, API_KEY, SEARCH_ENDPOINT } from "../../credentials";
-import ItemGrid from "../../components/ItemGrid/ItemGrid";
 import { uiActions } from "../../store/ui-slice";
 import { useDispatch } from "react-redux";
+import ItemGrid from "../../components/ItemGrid/ItemGrid";
+
+import { API_URL, SEARCH_ENDPOINT } from "../../urls";
 
 let firstMount = true;
 let isSeachtTextLoaded = false;
 
+const API_KEY = window.env.API_KEY;
 const URL_SEARCH = `${API_URL}${SEARCH_ENDPOINT}?api_key=${API_KEY}`;
 let TREND_OFFSET = 0;
 let fetchedDatas = [];

@@ -1,9 +1,6 @@
 # [GIPHY APP](https://eip-giphy-app.web.app/)
 This is a small app to practice the use of React and APIS consumption.
 
-
-
-
 ## Run the project
 For run this project you have to follow the next steps:
 
@@ -17,6 +14,7 @@ For run this project you have to follow the next steps:
 - React redux
 - Redux toolkit
 - React router 5
+- React dotenv
 - MPA on SPA
 - Custom hooks
 - CSS grid
