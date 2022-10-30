@@ -1,0 +1,45 @@
+.main {
+  position: absolute;
+  inset: 3rem 0 0 0;
+  overflow: auto;
+  min-width: 320px;
+
+  .cards-container {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 2rem;
+  }
+}
+
+.scroll-style {
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+  }
+
+  &::-webkit-scrollbar:vertical {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar:horizontal {
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-button:increment {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #353c48;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.448);
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+}
