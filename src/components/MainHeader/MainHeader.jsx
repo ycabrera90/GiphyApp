@@ -1,17 +1,21 @@
-import React from "react";
-import classes from "./MainHeader.module.css";
 import { useHistory } from "react-router-dom";
+
 import Logo from "./Logo/Logo";
+
 import SearchForm from "./SearchForm/SearchForm";
 
-const MainHeader = (props) => {
+import classes from "./MainHeader.module.css";
+
+
+
+const MainHeader = () => {
   const history = useHistory();
 
   const searchFunctionHandler = (text) => {
     history.push(`/search/${text}`);
   };
 
-  const goHomeFunctionHandler = (text) => {
+  const goHomeFunctionHandler = () => {
     history.push(`/home`);
   };
 
@@ -22,5 +26,7 @@ const MainHeader = (props) => {
     </header>
   );
 };
+
+
 
 export default MainHeader;

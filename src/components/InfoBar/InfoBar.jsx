@@ -1,14 +1,14 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import classes from "./InfoBar.module.css";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import { uiActions } from "../../store/ui-slice";
+
+import classes from "./InfoBar.module.css";
+
+
 
 const InfoBar = () => {
   const { type, text } = useSelector((state) => state.ui.message);
-  const componentClasses = `${classes["info-bar"]} ${
-    type ? classes[type] : ""
-  }`;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,12 +23,14 @@ const InfoBar = () => {
   return (
     <>
       {type && (
-        <section className={componentClasses}>
+        <section className={`${classes["info-bar"]} ${type ? classes[type] : ""}`}>
           <h3>{text}</h3>
         </section>
       )}
     </>
   );
 };
+
+
 
 export default InfoBar;

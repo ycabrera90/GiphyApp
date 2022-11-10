@@ -1,8 +1,8 @@
-import React from "react";
 import classes from "./FormInput.module.css";
 
-const FormInput = (props) => {
-  const { params } = props;
+
+
+const FormInput = ({ params }) => {
 
   return (
     <div className={classes.control}>
@@ -10,5 +10,7 @@ const FormInput = (props) => {
     </div>
   );
 };
+
+
 
 export default FormInput;

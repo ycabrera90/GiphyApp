@@ -1,10 +1,14 @@
-import React from "react";
 import { useEffect } from "react";
-import classes from "./SearchForm.module.css";
-import FormInput from "./FormInput/FormInput";
-import FormButton from "./FormButton/FormButton";
+
 import useInput from "../../../hooks/use-input";
 import { useLocation } from "react-router-dom";
+
+import FormInput from "./FormInput/FormInput";
+import FormButton from "./FormButton/FormButton";
+
+import classes from "./SearchForm.module.css";
+
+
 
 const SearchForm = (props) => {
   let location = useLocation();
@@ -53,5 +57,7 @@ const SearchForm = (props) => {
     </form>
   );
 };
+
+
 
 export default SearchForm;

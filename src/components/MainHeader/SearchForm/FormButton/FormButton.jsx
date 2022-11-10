@@ -1,8 +1,8 @@
-import React from "react";
 import classes from "./FormButton.module.css";
 
-const FormButton = (props) => {
-  const { attrib, text } = props;
+
+
+const FormButton = ({ attrib, text }) => {
 
   return (
     <button className={classes.button} {...attrib}>
@@ -10,5 +10,7 @@ const FormButton = (props) => {
     </button>
   );
 };
+
+
 
 export default FormButton;

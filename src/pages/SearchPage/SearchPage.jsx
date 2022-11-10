@@ -1,41 +1,34 @@
-import React from "react";
-import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import useHTTP from "../../hooks/use-HTTP";
 import { uiActions } from "../../store/ui-slice";
-import { useDispatch } from "react-redux";
+import { URL_SEARCH } from "../../store/urls";
+import MSSG from "../../store/messages";
+
 import ItemGrid from "../../components/ItemGrid/ItemGrid";
 
-import { API_URL, SEARCH_ENDPOINT } from "../../urls";
+
 
 let firstMount = true;
 let isSeachtTextLoaded = false;
-
-const API_KEY = window.env.API_KEY;
-const URL_SEARCH = `${API_URL}${SEARCH_ENDPOINT}?api_key=${API_KEY}`;
-let TREND_OFFSET = 0;
-let fetchedDatas = [];
-
-const ALERT_MSSG = { text: "Loading...", type: "alert" };
-const ERROR_MSSG = {
-  text: "Sorry 😔. Something went wrong",
-  type: "error",
-};
+let TREND_OFFSET = 0;                       // <-- initial value for fetch datas
+let fetchedDatas = [];                      // <-- initial value of fetched datas
 
 const SearchPage = () => {
   const dispatch = useDispatch();
   const { text: searchText } = useParams();
   const { isLoading, error, sendRequest } = useHTTP();
 
-  const getFetchedDatas = (datas) => {
-    fetchedDatas = datas.data.map((element) => element.images.fixed_height.url);
+  const getFetchedDatas = ({ data }) => {
+    fetchedDatas = data.map(({ images }) => images.fixed_height.url);
     TREND_OFFSET += 50;
   };
 
   const getMoreFetchedDatas = (datas) => {
-    datas.data.forEach((element) => {
-      fetchedDatas.push(element.images.fixed_height.url);
+    datas.data.forEach(({ images }) => {
+      fetchedDatas.push(images.fixed_height.url);
     });
     TREND_OFFSET += 50;
   };
@@ -48,11 +41,11 @@ const SearchPage = () => {
   useEffect(() => {
     if (!firstMount) {
       if (error) {
-        dispatch(uiActions.sendMessage(ERROR_MSSG));
+        dispatch(uiActions.sendMessage(MSSG.ERROR));
       }
 
       if (isLoading && !isSeachtTextLoaded) {
-        dispatch(uiActions.sendMessage(ALERT_MSSG));
+        dispatch(uiActions.sendMessage(MSSG.ALERT));
       }
 
       if (!isLoading && !error && !isSeachtTextLoaded) {
@@ -65,10 +58,7 @@ const SearchPage = () => {
   }, [error, isLoading]);
 
   const getMoreDatas = () => {
-    sendRequest(
-      { url: `${URL_SEARCH}&q=${searchText}&offset=${TREND_OFFSET}` },
-      getMoreFetchedDatas
-    );
+    sendRequest({ url: `${URL_SEARCH}&q=${searchText}&offset=${TREND_OFFSET}` }, getMoreFetchedDatas);
   };
 
   return (
@@ -78,5 +68,7 @@ const SearchPage = () => {
     />
   );
 };
+
+
 
 export default SearchPage;

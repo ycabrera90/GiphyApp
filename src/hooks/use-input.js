@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
+
 
 const useInput = (validateValue) => {
   const [enteredValue, setEnteredValue] = useState("");
@@ -29,6 +31,8 @@ const useInput = (validateValue) => {
     resetInput,
   };
 };
+
+
 
 export default useInput;
 

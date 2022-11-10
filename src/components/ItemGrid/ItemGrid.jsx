@@ -1,13 +1,12 @@
-import React from "react";
 import classes from "./ItemGrid.module.css";
+
+
 
 let scrollEvents = true;
 
-const ItemGrid = (props) => {
-  const { datas: itemList, scroll } = props;
-
+const ItemGrid = ({ datas: itemList, scroll }) => {
   let itemId = 0;
-
+  
   const scrollEventHandler = (event) => {
     const domElement = event.target;
     let scrolledContainer = domElement.scrollTop;
@@ -39,5 +38,7 @@ const ItemGrid = (props) => {
     </>
   );
 };
+
+
 
 export default ItemGrid;
