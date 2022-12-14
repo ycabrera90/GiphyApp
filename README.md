@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://eip-my-summary.web.app/"
+  <a href="https://my-summary-sooty.vercel.app/"
     ><img
       src="https://eip-my-summary.herokuapp.com/images/logo"
       alt="EIP Studios"

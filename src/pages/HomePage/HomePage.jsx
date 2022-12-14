@@ -8,8 +8,6 @@ import MSSG from "../../store/messages";
 
 import ItemGrid from "../../components/ItemGrid/ItemGrid";
 
-
-
 let firstMount = true;
 let isWlecomeMssgLoaded = false;
 let TREND_OFFSET = 0;                       // <-- initial value for fetch datas

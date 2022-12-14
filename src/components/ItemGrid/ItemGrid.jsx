@@ -1,7 +1,5 @@
 import classes from "./ItemGrid.module.css";
 
-
-
 let scrollEvents = true;
 
 const ItemGrid = ({ datas: itemList, scroll }) => {
