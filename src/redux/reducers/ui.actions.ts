@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import { IUiState } from "models/IUiState";
+import { IUiState } from "models/UiState.type";
 
 export const sendMessage = createAction<IUiState["message"]>("ui/sendMessage");
 

@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { IUiState } from 'models/IUiState';
+import { IUiState } from 'models/UiState.type';
 import { cleanMessage, sendMessage } from "./ui.actions";
 
 export const initialState: IUiState = { message: { text: null, type: null } };
