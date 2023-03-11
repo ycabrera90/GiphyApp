@@ -1,28 +1,28 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import BaseTemplate from "./BaseTemplate";
 
-const BaseTemplateFactory = async () => {
-  const renderMethods = await render(
-    <BaseTemplate sampleTextProp="This prop is only for test" />
-  );
-  return {
-    ...renderMethods,
-    baseTemplate: renderMethods.getByTestId("BaseTemplate"),
-  };
+const BaseTemplateFactory = () => {
+  render(<BaseTemplate sampleTextProp="This prop is only for test" />);
 };
 
 describe("BaseTemplate Component", () => {
   it("the component should be render with DOM content inside of it", async () => {
-    const { baseTemplate } = await BaseTemplateFactory();
-    expect(baseTemplate).not.toBeEmptyDOMElement();
+    await act(() => {
+      BaseTemplateFactory();
+    });
+    expect(screen.getByTestId("BaseTemplate")).not.toBeEmptyDOMElement();
   });
 
   it("the component should be render with the correct props", async () => {
-    await BaseTemplateFactory();
+    await act(() => {
+      BaseTemplateFactory();
+    });
+
     const element = screen.getByText("This prop is only for test", {
       exact: false,
     });
+
     expect(element).toBeInTheDocument();
   });
 });

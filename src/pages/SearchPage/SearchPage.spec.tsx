@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
-import mockFetch from "jest-fetch-mock";
 import GifCardsData from "./GifCards.data.mocks.json";
+import SearchPage from "./SearchPage";
 import { Provider } from "react-redux";
 import { store } from "redux/app/store";
 import {
@@ -10,7 +10,6 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import SearchPage from "./SearchPage";
 import { MemoryRouter } from "react-router-dom";
 import { GiphyAppService } from "services/giphyApi.service";
 

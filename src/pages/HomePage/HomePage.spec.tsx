@@ -40,33 +40,37 @@ describe("HomePage Pages", () => {
     });
   });
 
-  // it("the page should load the data of cards and pase it to the GifCards component", async () => {
-  //   const { card } = await HomePageFactory();
-  //   await waitFor(() => {
-  //     expect(card.length).toBe(GifCardsData.length);
-  //   });
-  // });
+  it("the page should load the data of cards and pase it to the GifCards component", async () => {
+    await act(async () => {
+      HomePageFactory();
+    });
 
-  // it("more data should append to the existing data when the scroll is above the scroll.trigger", async () => {
-  //   const { gifCards } = await HomePageFactory();
+    await waitFor(async () => {
+      const allCards = await screen.findAllByTestId("Card");
+      expect(allCards.length).toBe(GifCardsData.length);
+    });
+  });
 
-  //   act(() => {
-  //     fireEvent.scroll(gifCards, {
-  //       target: {
-  //         scrollTop: 81, // <-- the trigger is 80
-  //         getBoundingClientRect: () => ({
-  //           height: -100,
-  //         }),
-  //       },
-  //     });
-  //   });
+  it("more data should append to the existing data when the scroll is above the scroll.trigger", async () => {
+    await act(async () => {
+      HomePageFactory();
+    });
 
-  //   await waitFor(
-  //     async () => {
-  //       const card = await screen.findAllByTestId("Card");
-  //       expect(card.length).toBeGreaterThan(GifCardsData.length);
-  //     },
-  //     { timeout: 3000 }
-  //   );
-  // });
+    act(() => {
+      const gifCards = screen.getByTestId("GifCards");
+      fireEvent.scroll(gifCards, {
+        target: {
+          scrollTop: 81, // <-- the trigger is 80
+          getBoundingClientRect: () => ({
+            height: -100,
+          }),
+        },
+      });
+    });
+
+    await waitFor(async () => {
+      const card = await screen.findAllByTestId("Card");
+      expect(card.length).toBeGreaterThan(GifCardsData.length);
+    });
+  });
 });
