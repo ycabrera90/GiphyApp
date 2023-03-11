@@ -28,7 +28,6 @@ const SearchPage: FC<ISearchPageProps> = ({}) => {
         queryText,
       })
         .then((data) => {
-          console.log(data);
           SEARCH_OFFSET += 50;
           setFetchedDatas((state) => [...state, ...data]);
           if (call === "mount")
