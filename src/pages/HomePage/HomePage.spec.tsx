@@ -1,0 +1,75 @@
+import "@testing-library/jest-dom";
+import mockFetch from "jest-fetch-mock";
+import GifCardsData from "./GifCards.data.mocks.json";
+import HomePage from "./HomePage";
+import { Provider } from "react-redux";
+import { store } from "redux/app/store";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
+
+mockFetch.mockResponse((req) => {
+  if (req.url.includes("https://api.giphy.com/v1/gifs/trending")) {
+    return Promise.resolve(JSON.stringify(GifCardsData));
+  }
+  return Promise.reject(new Error("not mapped url"));
+});
+
+const HomePageFactory = async () => {
+  const renderMethods = await render(
+    <Provider store={store}>
+      <HomePage />
+    </Provider>
+  );
+  return {
+    ...renderMethods,
+    gifCards: renderMethods.getByTestId("GifCards"),
+    card: await renderMethods.findAllByTestId("Card"),
+  };
+};
+
+describe("HomePage Pages", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
+
+  it("the page should render the GifCards", async () => {
+    const { gifCards } = await HomePageFactory();
+    expect(gifCards).toBeInTheDocument();
+  });
+
+  it("the page should load the data of cards and pase it to the GifCards component", async () => {
+    const { card } = await HomePageFactory();
+    await waitFor(() => {
+      expect(card.length).toBe(GifCardsData.length);
+    });
+  });
+
+  it("more data should append to the existing data when the scroll is above the scroll.trigger", async () => {
+    const { gifCards } = await HomePageFactory();
+
+    act(() => {
+      fireEvent.scroll(gifCards, {
+        target: {
+          scrollTop: 81, // <-- the trigger is 80
+          getBoundingClientRect: () => ({
+            height: -100,
+          }),
+        },
+      });
+    });
+
+    await waitFor(
+      async () => {
+        const card = await screen.findAllByTestId("Card");
+        expect(card.length).toBeGreaterThan(GifCardsData.length);
+      },
+      { timeout: 3000 }
+    );
+  });
+});

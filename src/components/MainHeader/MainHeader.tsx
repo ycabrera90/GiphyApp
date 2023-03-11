@@ -11,8 +11,6 @@ const MainHeader: FC<IMainHeaderProps> = ({}) => {
 
   const searchFunctionHandler = useCallback(
     (text: string) => {
-
-      console.log(`/search/${text}`);
       history.push(`/search/${text}`);
     },
     [history]
@@ -23,9 +21,9 @@ const MainHeader: FC<IMainHeaderProps> = ({}) => {
   }, [history]);
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-testid="MainHeader">
       <section className={styles.logo} onClick={goHomeFunctionHandler}>
-        <img src={giphyLogo}></img>
+        <img src={giphyLogo} alt={'logo-icon'}></img>
         <h1>GIPHY</h1>
       </section>
 
