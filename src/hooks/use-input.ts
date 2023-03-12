@@ -1,16 +1,16 @@
 import { useState } from 'react';
 
+interface IEvent {
+  target: HTMLInputElement | HTMLTextAreaElement;
+  key?: string;
+}
+
 const useInput = (validateValue: (value: string) => boolean) => {
   const [enteredValue, setEnteredValue] = useState('');
   const [isTouched, setIsTouched] = useState(false);
 
   const valueIsValid = validateValue(enteredValue);
   const hasError = !valueIsValid && isTouched;
-
-  interface IEvent {
-    target: HTMLInputElement | HTMLTextAreaElement;
-    key?: string;
-  }
 
   const valueChangeHandler = (event: IEvent) => {
     setEnteredValue(event.target.value);

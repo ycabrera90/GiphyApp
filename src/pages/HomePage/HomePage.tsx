@@ -1,6 +1,6 @@
 import { FC, memo, useCallback, useEffect, useState } from "react";
-import ItemGrid from "../../components/GifCards/GifCards";
-import { MarvelAppService } from "services/giphyApi.service";
+import GifCards from "../../components/GifCards/GifCards";
+import { GiphyAppService } from "services/giphyApi.service";
 import { ITrending } from "models/Trending.type";
 import { useAppDispatch } from "redux/app/hooks";
 import { sendMessage } from "redux/reducers/ui.actions";
@@ -21,7 +21,7 @@ const HomePage: FC<IHomePageProps> = () => {
         setFetchedDatas([]);
       }
 
-      MarvelAppService.fetchTrending({ offset: TREND_OFFSET })
+      GiphyAppService.fetchTrending({ offset: TREND_OFFSET })
         .then((data) => {
           TREND_OFFSET += 50;
           setFetchedDatas((state) => [...state, ...data]);
@@ -39,8 +39,8 @@ const HomePage: FC<IHomePageProps> = () => {
   }, []);
 
   return (
-    <ItemGrid
-      datas={fetchedDatas}
+    <GifCards
+      data={fetchedDatas}
       scroll={{
         trigger: 75,
         onEvent: () => fetchGifData("scroll"),

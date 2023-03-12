@@ -35,7 +35,11 @@ const SearchForm: FC<ISearchFormProps> = ({ onSubmit }) => {
   }, [location.pathname]);
 
   return (
-    <form onSubmit={submitFormHandler} className={styles["search-form"]}>
+    <form
+      onSubmit={submitFormHandler}
+      className={styles["search-form"]}
+      data-testid="SearchForm"
+    >
       <input
         className={styles["search-input"]}
         type="text"
