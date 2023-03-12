@@ -3,8 +3,6 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { FC } from "react";
 import useInput from "./use-input";
 
-const waitForATime = new Promise((resolve) => setTimeout(resolve, 1));
-
 const FakeComponent: FC<{ validateResult: (value: string) => boolean }> = ({
   validateResult,
 }) => {
@@ -37,100 +35,143 @@ const FakeComponent: FC<{ validateResult: (value: string) => boolean }> = ({
   );
 };
 
-const useInputFactory = async ({
+const useInputFactory = ({
   validateResult,
 }: {
   validateResult?: (value: string) => boolean;
 }) => {
-  const renderMethods = await render(
-    <FakeComponent
-      validateResult={validateResult ? validateResult : () => false}
-    />
-  );
-  return {
-    ...renderMethods,
-    fakeForm: renderMethods.getByTestId("fakeForm"),
-  };
+  act(() => {
+    render(
+      <FakeComponent
+        validateResult={validateResult ? validateResult : () => false}
+      />
+    );
+  });
 };
 
 describe("useInput Hook", () => {
   it("'value' should be updated when valueChangeHandler is fired", async () => {
+    useInputFactory({});
+
     const typedText = "a value only for test";
-    const { fakeForm } = await useInputFactory({});
+    const fakeForm = screen.getByTestId("fakeForm");
     const input = fakeForm.querySelector("input")!;
-    fireEvent.change(input, { target: { value: typedText } });
-    expect(input.value).toBe(typedText);
+
+    act(() => {
+      fireEvent.change(input, { target: { value: typedText } });
+    });
+
+    waitFor(() => {
+      expect(input.value).toBe(typedText);
+    });
   });
 
   it("'hasError' should be true when inputBlurHandler is fired and validateValue return false", async () => {
-    const { fakeForm } = await useInputFactory({ validateResult: () => false });
+    useInputFactory({ validateResult: () => false });
+    
+    const fakeForm = screen.getByTestId("fakeForm");
     const input = fakeForm.querySelector("input")!;
-    fireEvent.blur(input);
-    expect(
-      JSON.parse(fakeForm.querySelector("label")!.textContent!).hasError
-    ).toBe(true);
+
+    act(() => {
+      fireEvent.blur(input);
+    });
+
+    waitFor(() => {
+      expect(
+        JSON.parse(fakeForm.querySelector("label")!.textContent!).hasError
+      ).toBe(true);
+    });
   });
 
   it("'hasError' should be false when inputBlurHandler is fired and validateValue return true", async () => {
-    const { fakeForm } = await useInputFactory({ validateResult: () => true });
+    useInputFactory({ validateResult: () => true });
+
+    const fakeForm = screen.getByTestId("fakeForm");
     const input = fakeForm.querySelector("input")!;
-    fireEvent.blur(input);
-    expect(
-      JSON.parse(fakeForm.querySelector("label")!.textContent!).hasError
-    ).toBe(false);
+
+    act(() => {
+      fireEvent.blur(input);
+    });
+
+    waitFor(() => {
+      expect(
+        JSON.parse(fakeForm.querySelector("label")!.textContent!).hasError
+      ).toBe(false);
+    });
   });
 
   it("'hasError' should be it last state when inputBlurHandler isnt fired", async () => {
-    const { fakeForm } = await useInputFactory({
+    useInputFactory({
       validateResult: (value) => value !== "falseValue",
     });
 
-    // condition 1
-    const hasErrorLastStateCondition1 = JSON.parse(
-      fakeForm.querySelector("label")!.textContent!
-    ).hasError;
-    fireEvent.change(fakeForm.querySelector("input")!, {
-      target: { value: "falseValue" },
+    const fakeForm = screen.getByTestId("fakeForm");
+
+    act(() => {
+      fireEvent.change(fakeForm.querySelector("input")!, {
+        target: { value: "falseValue" },
+      });
     });
-    expect(
-      JSON.parse(fakeForm.querySelector("label")!.textContent!).hasError
-    ).toBe(hasErrorLastStateCondition1);
+
+    // condition 1
+    await waitFor(() => {
+      const hasErrorLastStateCondition1 = JSON.parse(
+        fakeForm.querySelector("label")!.textContent!
+      ).hasError;
+      expect(
+        JSON.parse(fakeForm.querySelector("label")!.textContent!).hasError
+      ).toBe(hasErrorLastStateCondition1);
+    });
+
+    act(() => {
+      fireEvent.change(fakeForm.querySelector("input")!, {
+        target: { value: "trueValue" },
+      });
+    });
 
     // condition 2
-    const hasErrorLastStateCondition2 = JSON.parse(
-      fakeForm.querySelector("label")!.textContent!
-    ).hasError;
-    fireEvent.change(fakeForm.querySelector("input")!, {
-      target: { value: "trueValue" },
+    await waitFor(() => {
+      const hasErrorLastStateCondition2 = JSON.parse(
+        fakeForm.querySelector("label")!.textContent!
+      ).hasError;
+      expect(
+        JSON.parse(fakeForm.querySelector("label")!.textContent!).hasError
+      ).toBe(hasErrorLastStateCondition2);
     });
-    expect(
-      JSON.parse(fakeForm.querySelector("label")!.textContent!).hasError
-    ).toBe(hasErrorLastStateCondition2);
   });
 
   it("'isValid' should be true when validateValue return true", async () => {
-    const { fakeForm } = await useInputFactory({
+    useInputFactory({
       validateResult: () => true,
     });
-    expect(
-      JSON.parse(fakeForm.querySelector("label")!.textContent!).isValid
-    ).toBe(true);
+
+    await waitFor(() => {
+      const fakeForm = screen.getByTestId("fakeForm");
+      expect(
+        JSON.parse(fakeForm.querySelector("label")!.textContent!).isValid
+      ).toBe(true);
+    });
   });
 
   it("'isValid' should be false when validateValue return false", async () => {
-    const { fakeForm } = await useInputFactory({
+    useInputFactory({
       validateResult: () => false,
     });
-    expect(
-      JSON.parse(fakeForm.querySelector("label")!.textContent!).isValid
-    ).toBe(false);
+
+    await waitFor(() => {
+      const fakeForm = screen.getByTestId("fakeForm");
+      expect(
+        JSON.parse(fakeForm.querySelector("label")!.textContent!).isValid
+      ).toBe(false);
+    });
   });
 
   it("'value' should be '' when resetInput() is called", async () => {
-    const { fakeForm } = await useInputFactory({
+    useInputFactory({
       validateResult: () => false,
     });
 
+    const fakeForm = screen.getByTestId("fakeForm");
     const input = fakeForm.querySelector("input")! as HTMLInputElement;
     const button = fakeForm.querySelector("button")! as HTMLButtonElement;
 
@@ -145,14 +186,17 @@ describe("useInput Hook", () => {
       fireEvent.click(button);
     });
 
-    expect(input.value).toBe("");
+    await waitFor(() => {
+      expect(input.value).toBe("");
+    });
   });
 
   it("'value' should be 'value ' and after 1ms 'value' again, when inputKeyDownHandler is fired", async () => {
-    const { fakeForm } = await useInputFactory({
+    useInputFactory({
       validateResult: () => false,
     });
 
+    const fakeForm = screen.getByTestId("fakeForm");
     const input = fakeForm.querySelector("input")! as HTMLInputElement;
 
     act(() => {

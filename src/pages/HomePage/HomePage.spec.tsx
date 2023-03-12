@@ -22,18 +22,18 @@ mockFetch.mockResponse((req) => {
 
 const HomePageFactory = () => {
   jest.spyOn(GiphyAppService, "fetchTrending").mockResolvedValue(GifCardsData);
-  render(
-    <Provider store={store}>
-      <HomePage />
-    </Provider>
-  );
+  act(() => {
+    render(
+      <Provider store={store}>
+        <HomePage />
+      </Provider>
+    );
+  });
 };
 
 describe("HomePage Pages", () => {
   it("the page should render the GifCards", async () => {
-    await act(async () => {
-      HomePageFactory();
-    });
+    HomePageFactory();
 
     await waitFor(() => {
       expect(screen.getByTestId("GifCards")).toBeInTheDocument();
@@ -41,9 +41,7 @@ describe("HomePage Pages", () => {
   });
 
   it("the page should load the data of cards and pase it to the GifCards component", async () => {
-    await act(async () => {
-      HomePageFactory();
-    });
+    HomePageFactory();
 
     await waitFor(async () => {
       const allCards = await screen.findAllByTestId("Card");
@@ -52,9 +50,7 @@ describe("HomePage Pages", () => {
   });
 
   it("more data should append to the existing data when the scroll is above the scroll.trigger", async () => {
-    await act(async () => {
-      HomePageFactory();
-    });
+    HomePageFactory();
 
     act(() => {
       const gifCards = screen.getByTestId("GifCards");

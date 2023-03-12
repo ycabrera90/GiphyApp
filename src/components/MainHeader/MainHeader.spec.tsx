@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
-import { FC, SyntheticEvent } from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
 import MainHeader from "./MainHeader";
+import { FC, SyntheticEvent } from "react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, useLocation } from "react-router-dom";
 
 const SearchForm: FC<{ onSubmit: (searchText: string) => void }> = ({
@@ -25,17 +25,15 @@ const FakeComponent: FC = () => {
 
 jest.mock("../SearchForm/SearchForm", () => SearchForm);
 
-const MainHeaderFactory = async () => {
-  const renderMethods = await render(
-    <MemoryRouter initialEntries={["/test"]}>
-      <MainHeader />
-      <FakeComponent />
-    </MemoryRouter>
-  );
-  return {
-    ...renderMethods,
-    mainHeader: renderMethods.getByTestId("MainHeader"),
-  };
+const MainHeaderFactory = () => {
+  act(() => {
+    render(
+      <MemoryRouter initialEntries={["/test"]}>
+        <MainHeader />
+        <FakeComponent />
+      </MemoryRouter>
+    );
+  });
 };
 
 describe("MainHeader Component", () => {
@@ -45,29 +43,54 @@ describe("MainHeader Component", () => {
   });
 
   it("the component should be render with DOM content inside of it", async () => {
-    const { mainHeader } = await MainHeaderFactory();
-    expect(mainHeader).not.toBeEmptyDOMElement();
+    MainHeaderFactory();
+
+    await waitFor(() => {
+      const mainHeader = screen.getByTestId("MainHeader");
+      expect(mainHeader).not.toBeEmptyDOMElement();
+    });
   });
 
   it("when do click on the logo the current path has to change to ('/')", async () => {
-    const { mainHeader, getByTestId } = await MainHeaderFactory();
-    fireEvent.click(mainHeader.querySelector("section")!);
-    expect(getByTestId("pathname").textContent).toBe("/");
+    MainHeaderFactory();
+
+    act(() => {
+      const mainHeader = screen.getByTestId("MainHeader");
+      fireEvent.click(mainHeader.querySelector("section")!);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("pathname").textContent).toBe("/");
+    });
   });
 
   it("the logo-icon should be rendered", async () => {
-    const { queryByAltText } = await MainHeaderFactory();
-    expect(queryByAltText("logo-icon")).toBeInTheDocument();
+    MainHeaderFactory();
+
+    await waitFor(() => {
+      expect(screen.queryByAltText("logo-icon")).toBeInTheDocument();
+    });
   });
 
   it("the logo-text should be rendered", async () => {
-    const { mainHeader } = await MainHeaderFactory();
-    expect(mainHeader.querySelector("h1")).toBeInTheDocument();
+    MainHeaderFactory();
+
+    await waitFor(() => {
+      const mainHeader = screen.getByTestId("MainHeader");
+      expect(mainHeader.querySelector("h1")).toBeInTheDocument();
+    });
   });
 
   it("when the form is submitted the path has to change to /search/${text}", async () => {
-    const { mainHeader, getByTestId } = await MainHeaderFactory();
-    fireEvent.submit(mainHeader.querySelector("form")!);
-    expect(getByTestId("pathname").textContent).toBe("/search/cat");
+    MainHeaderFactory();
+
+    act(() => {
+      const mainHeader = screen.getByTestId("MainHeader");
+      fireEvent.submit(mainHeader.querySelector("form")!);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("pathname").textContent).toBe("/search/cat");
+    });
   });
 });

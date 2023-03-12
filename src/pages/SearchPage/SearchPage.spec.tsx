@@ -15,20 +15,20 @@ import { GiphyAppService } from "services/giphyApi.service";
 
 const SearchPageFactory = () => {
   jest.spyOn(GiphyAppService, "findTrendingBy").mockResolvedValue(GifCardsData);
-  render(
-    <Provider store={store}>
-      <MemoryRouter initialEntries={["http://localhost:3000/search/pet"]}>
-        <SearchPage />
-      </MemoryRouter>
-    </Provider>
-  );
+  act(() => {
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["http://localhost:3000/search/pet"]}>
+          <SearchPage />
+        </MemoryRouter>
+      </Provider>
+    );
+  });
 };
 
 describe("HomePage Pages", () => {
   it("the page should render the GifCards", async () => {
-    await act(async () => {
-      SearchPageFactory();
-    });
+    SearchPageFactory();
 
     await waitFor(() => {
       expect(screen.getByTestId("GifCards")).toBeInTheDocument();
@@ -36,9 +36,7 @@ describe("HomePage Pages", () => {
   });
 
   it("the page should load the data of cards and pase it to the GifCards component", async () => {
-    await act(async () => {
-      SearchPageFactory();
-    });
+    SearchPageFactory();
 
     await waitFor(async () => {
       const allCards = await screen.findAllByTestId("Card");
@@ -47,9 +45,7 @@ describe("HomePage Pages", () => {
   });
 
   it("more data should append to the existing data when the scroll is above the scroll.trigger", async () => {
-    await act(async () => {
-      SearchPageFactory();
-    });
+    SearchPageFactory();
 
     act(() => {
       const gifCards = screen.getByTestId("GifCards");

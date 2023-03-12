@@ -16,7 +16,7 @@ describe("ui Reducer", () => {
     expect(state).toEqual({ ...state, message: action.payload });
   });
 
-  it("the message field should be updated with the payload when the sendMessage action is dispatched", () => {
+  it("message field should be updated with the payload when the sendMessage action is dispatched", () => {
     const action = {
       type: sendMessage,
       payload: { text: "Hello", type: "info" },
