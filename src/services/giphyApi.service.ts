@@ -27,7 +27,7 @@ const findTrendingBy: IFindTrendingBy = async ({ offset, queryText }) => {
   return trendingAdapter(data);
 };
 
-export const MarvelAppService = {
+export const GiphyAppService = {
   fetchTrending,
   findTrendingBy,
 };

@@ -5,14 +5,14 @@ import styles from "./GifCards.module.scss";
 let scrollEvents = true;
 
 interface IGifCardsProps {
-  datas: { imageUrl: string }[];
+  data: { imageUrl: string }[];
   scroll: {
     trigger: number;
     onEvent: () => void;
   };
 }
 
-const GifCards: FC<IGifCardsProps> = ({ datas: itemList, scroll }) => {
+const GifCards: FC<IGifCardsProps> = ({ data: itemList, scroll }) => {
   const scrollEventHandler = useCallback(
     (event: BaseSyntheticEvent) => {
       const domElement = event.target;
@@ -21,6 +21,7 @@ const GifCards: FC<IGifCardsProps> = ({ datas: itemList, scroll }) => {
       let itemsHeght = domElement.childNodes[0].getBoundingClientRect().height;
       let maxScrollItems = itemsHeght - containerHeight;
       let percentScrolledContainer = (scrolledContainer / maxScrollItems) * 100;
+
       if (percentScrolledContainer > scroll.trigger) {
         if (scrollEvents) {
           scroll.onEvent();
@@ -38,6 +39,7 @@ const GifCards: FC<IGifCardsProps> = ({ datas: itemList, scroll }) => {
     <main
       className={`${styles.main} ${styles["scroll-style"]}`}
       onScroll={scrollEventHandler}
+      data-testid="GifCards"
     >
       <ul className={styles["cards-container"]}>
         {itemList.map(({ imageUrl }, index) => (

@@ -1,6 +1,6 @@
 import { FC, memo, useCallback, useEffect, useState } from "react";
 import ItemGrid from "../../components/GifCards/GifCards";
-import { MarvelAppService } from "services/giphyApi.service";
+import { GiphyAppService } from "services/giphyApi.service";
 import { ITrending } from "models/Trending.type";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "redux/app/hooks";
@@ -23,7 +23,7 @@ const SearchPage: FC<ISearchPageProps> = ({}) => {
         setFetchedDatas([]);
       }
 
-      MarvelAppService.findTrendingBy({
+      GiphyAppService.findTrendingBy({
         offset: SEARCH_OFFSET,
         queryText,
       })
@@ -46,7 +46,7 @@ const SearchPage: FC<ISearchPageProps> = ({}) => {
 
   return (
     <ItemGrid
-      datas={fetchedDatas}
+      data={fetchedDatas}
       scroll={{
         trigger: 75,
         onEvent: () => fetchGifData("scroll"),

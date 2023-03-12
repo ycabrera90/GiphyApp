@@ -20,12 +20,21 @@ const Card: FC<ICardProps> = ({ imageUrl }) => {
   }, []);
 
   return (
-    <li className={styles.card} ref={cardDOM} style={{ height: cardHeight }}>
+    <li
+      className={styles.card}
+      ref={cardDOM}
+      style={{ height: cardHeight }}
+      data-testid="Card"
+    >
       {!imageLoaded && (
         <Skeleton.Image active={true} className={styles.skeleton} />
       )}
       <a href={imageUrl} download>
-        <img src={imageUrl} onLoad={() => setImageLoaded(true)} />;
+        <img
+          src={imageUrl}
+          onLoad={() => setImageLoaded(true)}
+          alt={`gif image ${imageLoaded ? "loaded" : "loading"}`}
+        />
       </a>
     </li>
   );
